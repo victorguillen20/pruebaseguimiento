@@ -8,6 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { AccesoService } from '../../services/acceso.service';
 import { AuthorsData } from '../../interface/ResponseAuthor';
 import { TitleData } from '../../interface/ResponseTittle';
+import { Fragmento } from '../../interface/ResponseFragment';
 
 
 @Component({
@@ -23,12 +24,15 @@ export class InvitadoComponent implements AfterViewInit{
 
   public dataSource = new MatTableDataSource<string>();
   public titlesDataSource = new MatTableDataSource<TitleData>();
+  public fragmentoDataSource = new MatTableDataSource<Fragmento>();
 
   public displayedColumns:string[]=['Authors'];
   public displayedTitleColumns:string[]=['Title'];
+  public displayedFragmentsColumns:string[]=['Title', 'Author', 'Lines', 'LineCount'];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild('titlePaginator') titlePaginator!: MatPaginator;
+  @ViewChild('fragmentPaginator') fragmentPaginator!: MatPaginator;
 
   constructor(){
     this.accesoService.listar().subscribe({
@@ -36,6 +40,7 @@ export class InvitadoComponent implements AfterViewInit{
         if (data.authors.length>0) {
           this.listadeAutores=data;
           this.dataSource.data = data.authors;
+
         }
       }
     })
@@ -44,12 +49,20 @@ export class InvitadoComponent implements AfterViewInit{
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.titlesDataSource.paginator = this.titlePaginator;
+    this.fragmentoDataSource.paginator = this.fragmentPaginator;
   }
 
   onAuthorClick(author: string): void {
     this.accesoService.listarporAutor(author).subscribe({
       next: (data) => {
         this.titlesDataSource.data = data;
+      }
+    });
+  }
+  onTitleClick(title: string): void {
+    this.accesoService.listarFragmento(title).subscribe({
+      next: (data) => {
+        this.fragmentoDataSource.data = data;
       }
     });
   }

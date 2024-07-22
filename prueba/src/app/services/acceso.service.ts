@@ -4,6 +4,7 @@ import { appsettings } from '../settings/appsettings';
 import { Observable } from 'rxjs';
 import { AuthorsData } from '../interface/ResponseAuthor';
 import { TitleData } from '../interface/ResponseTittle';
+import { Fragmento } from '../interface/ResponseFragment';
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +22,10 @@ export class AccesoService {
 
   listarporAutor(author: string): Observable<TitleData[]> {
     return this.http.get<TitleData[]>(`${this.baseUrl}/author/${author}/title`);
+  }
+
+  listarFragmento(title: string): Observable<Fragmento[]> {
+    return this.http.get<Fragmento[]>(`${this.baseUrl}/title/${title}`);
   }
 
 }

@@ -1,4 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, inject, ViewChild, AfterViewInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { MatCardModule } from '@angular/material/card';
+import {MatTableModule, MatTableDataSource } from '@angular/material/table';
+import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
+
 
 @Component({
   selector: 'app-invitado',

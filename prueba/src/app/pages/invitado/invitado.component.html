@@ -4,25 +4,42 @@
       <mat-card-title style="color: white;">Lista de Autores</mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      <!--<mat-form-field>
-        <mat-label>Buscar</mat-label>
-        <input matInput (keyup)="applyFilter($event)" placeholder="Buscar">
-      </mat-form-field>-->
       <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
-        <!-- Definición de las columnas -->
         <ng-container matColumnDef="Authors">
           <th mat-header-cell *matHeaderCellDef> Author </th>
           <td mat-cell *matCellDef="let author"> {{ author }} </td>
         </ng-container>
 
-
-        <!-- Definición de las filas y celdas -->
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="onAuthorClick(row)"></tr>
       </table>
 
       <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Selecciona una página de Autores">
+      </mat-paginator>
+
+    </mat-card-content>
+    </mat-card>
+</div>
+<div style="margin-top: 20px;" class="card-container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title style="color: white;">Lista de Titulos por Autor seleccionado</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <table mat-table [dataSource]="titlesDataSource" class="mat-elevation-z8">
+
+        <ng-container matColumnDef="Title">
+          <th mat-header-cell *matHeaderCellDef> Title </th>
+          <td mat-cell *matCellDef="let title"> {{ title.title }} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedTitleColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedTitleColumns;"></tr>
+      </table>
+
+      <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Selecciona una página de Títulos"
+      #titlePaginator>
       </mat-paginator>
 
     </mat-card-content>

@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { appsettings } from '../settings/appsettings';
 import { Observable } from 'rxjs';
 import { AuthorsData } from '../interface/ResponseAuthor';
+import { TitleData } from '../interface/ResponseTittle';
 
 @Injectable({
   providedIn: 'root'
@@ -17,4 +18,9 @@ export class AccesoService {
   listar(): Observable<AuthorsData>{
     return this.http.get<AuthorsData>(`${this.baseUrl}/author`);
   }
+
+  listarporAutor(author: string): Observable<TitleData[]> {
+    return this.http.get<TitleData[]>(`${this.baseUrl}/author/${author}/title`);
+  }
+
 }

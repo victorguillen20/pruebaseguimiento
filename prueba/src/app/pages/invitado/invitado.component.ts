@@ -7,6 +7,7 @@ import { MatInputModule } from '@angular/material/input';
 
 import { AccesoService } from '../../services/acceso.service';
 import { AuthorsData } from '../../interface/ResponseAuthor';
+import { TitleData } from '../../interface/ResponseTittle';
 
 
 @Component({
@@ -21,10 +22,13 @@ export class InvitadoComponent implements AfterViewInit{
   public listadeAutores: AuthorsData | undefined;
 
   public dataSource = new MatTableDataSource<string>();
+  public titlesDataSource = new MatTableDataSource<TitleData>();
 
   public displayedColumns:string[]=['Authors'];
+  public displayedTitleColumns:string[]=['Title'];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild('titlePaginator') titlePaginator!: MatPaginator;
 
   constructor(){
     this.accesoService.listar().subscribe({
@@ -39,13 +43,14 @@ export class InvitadoComponent implements AfterViewInit{
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
+    this.titlesDataSource.paginator = this.titlePaginator;
   }
 
-  /*
-  applyFilter(event: Event): void {
-    const inputElement = event.target as HTMLInputElement;
-    const filterValue = inputElement.value.trim().toLowerCase();
-    this.
-  }*/
-
+  onAuthorClick(author: string): void {
+    this.accesoService.listarporAutor(author).subscribe({
+      next: (data) => {
+        this.titlesDataSource.data = data;
+      }
+    });
+  }
 }

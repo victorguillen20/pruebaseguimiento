@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { RouterOutlet, NavigationStart, Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -10,4 +10,16 @@ import { RouterOutlet } from '@angular/router';
 })
 export class AppComponent {
   title = 'Prueba';
+  constructor(private router: Router) {}
+  ngOnInit() {
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationStart) {
+        const user = JSON.parse(localStorage.getItem('user') || '{}');
+        const protectedRoutes = ['/invitado'];
+        if (protectedRoutes.includes(event.url) && (!user || !user.role)) {
+          this.router.navigate(['/login']);
+        }
+      }
+    });
+  }
 }

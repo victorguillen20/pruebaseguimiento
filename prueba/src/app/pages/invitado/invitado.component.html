@@ -1,32 +1,65 @@
-<div class="card-container">
+<div style="margin-top: 20px;" class="card-container" *ngIf="userRole === 'admin'">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title style="color: white;">Lista de Autores favoritos</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-spinner *ngIf="isLoadingFavorites"></mat-spinner>
+      <table mat-table [dataSource]="favoritesDataSource" class="mat-elevation-z8">
+        <ng-container matColumnDef="Favorite">
+          <th mat-header-cell *matHeaderCellDef> Favorite </th>
+          <td mat-cell *matCellDef="let favorite"> {{ favorite }} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedFavoritesColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedFavoritesColumns;"></tr>
+      </table>
+    </mat-card-content>
+  </mat-card>
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title style="color: white;">Lista de Obras favoritas</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+
+    </mat-card-content>
+  </mat-card>
+</div>
+
+<div style="margin-top: 20px;" class="card-container">
   <mat-card>
     <mat-card-header>
       <mat-card-title style="color: white;">Lista de Autores</mat-card-title>
     </mat-card-header>
     <mat-card-content>
+      <mat-spinner *ngIf="isLoadingAuthors"></mat-spinner>
       <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-
         <ng-container matColumnDef="Authors">
           <th mat-header-cell *matHeaderCellDef> Author </th>
           <td mat-cell *matCellDef="let author"> {{ author }} </td>
         </ng-container>
-
+        <ng-container matColumnDef="Actions">
+          <th mat-header-cell *matHeaderCellDef> Actions </th>
+          <td mat-cell *matCellDef="let author">
+            <button *ngIf="userRole === 'admin'" mat-flat-button color="primary"
+                    (click)="addToFavorites(author)">Agregar Favorito</button>
+          </td>
+        </ng-container>
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="onAuthorClick(row)"></tr>
       </table>
-
-      <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Selecciona una página de Autores">
-      </mat-paginator>
-
+      <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Selecciona una página de Autores"></mat-paginator>
     </mat-card-content>
-    </mat-card>
+  </mat-card>
 </div>
+
 <div style="margin-top: 20px;" class="card-container">
   <mat-card>
     <mat-card-header>
       <mat-card-title style="color: white;">Lista de Titulos por Autor seleccionado</mat-card-title>
     </mat-card-header>
     <mat-card-content>
+      <mat-spinner *ngIf="isLoadingTitles"></mat-spinner>
       <table mat-table [dataSource]="titlesDataSource" class="mat-elevation-z8">
 
         <ng-container matColumnDef="Title">
@@ -52,6 +85,7 @@
       <mat-card-title style="color: white;">Lista de Fragmentos por Títulos seleccionados</mat-card-title>
     </mat-card-header>
     <mat-card-content>
+      <mat-spinner *ngIf="isLoadingFragments"></mat-spinner>
       <table mat-table [dataSource]="fragmentoDataSource" class="mat-elevation-z8">
 
         <ng-container matColumnDef="Title">

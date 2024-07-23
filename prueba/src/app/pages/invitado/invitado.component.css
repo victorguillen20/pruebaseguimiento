@@ -1,13 +1,7 @@
 .card-container {
   justify-content: center;
   justify-items: center;
+  width: 60%;
   margin-top: 10%;
+  margin: 0 auto;
 }
-
-
-.input-custom{
-  width: 100%;
-}
-
-
-
